@@ -1,0 +1,12 @@
+{
+  "start": "/build/index.js",
+  "scripts": {
+    "start": "node ./build/index.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "boot-client": "github:Littie6amer/Boot-Client",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  }
+}
