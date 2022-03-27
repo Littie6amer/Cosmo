@@ -2,7 +2,8 @@
   "start": "/build/index.js",
   "scripts": {
     "start": "node ./build/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "restart": "tsc && node ./build/index.js"
   },
   "dependencies": {
     "boot-client": "github:Littie6amer/Boot-Client",

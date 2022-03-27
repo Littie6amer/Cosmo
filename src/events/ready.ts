@@ -7,7 +7,10 @@ export default class Event extends ClientEventBase {
 
     execute(client: BootClient, ...data: any[]): void {
         client.user?.setPresence({
-            activities: [{type: "LISTENING", name: "the debates | @spikey"}]
+            activities: [{
+                type: "LISTENING", 
+                name: "debates | @spikey"
+            }]
         })
     }
 }
