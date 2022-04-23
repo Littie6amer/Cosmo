@@ -6,6 +6,7 @@
     "restart": "tsc && node ./build/index.js"
   },
   "dependencies": {
+    "@discordjs/voice": "^0.8.0",
     "boot-client": "github:Littie6amer/Boot-Client",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0"
