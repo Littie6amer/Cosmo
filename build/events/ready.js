@@ -28,7 +28,7 @@ class Event extends boot_client_1.ClientEventBase {
             const members = yield (guild === null || guild === void 0 ? void 0 : guild.members.fetch());
             const memberCountChannel = client.channels.cache.get("959817177924505651");
             const onlineCountChannel = client.channels.cache.get("959817263987445880");
-            const theVC = client.channels.cache.get("954452250774863883");
+            const theVC = client.channels.cache.get("794323756272844823");
             memberCountChannel === null || memberCountChannel === void 0 ? void 0 : memberCountChannel.setName(`Members: ${members === null || members === void 0 ? void 0 : members.size}`);
             onlineCountChannel === null || onlineCountChannel === void 0 ? void 0 : onlineCountChannel.setName(`Online: ${members === null || members === void 0 ? void 0 : members.filter(m => { var _a; return !["offline", "invisible", undefined].includes((_a = m.presence) === null || _a === void 0 ? void 0 : _a.status); }).size}`);
             const connection = theVC ? (0, voice_1.joinVoiceChannel)({
@@ -40,7 +40,7 @@ class Event extends boot_client_1.ClientEventBase {
                 memberCountChannel === null || memberCountChannel === void 0 ? void 0 : memberCountChannel.setName(`Members: ${members === null || members === void 0 ? void 0 : members.size}`);
                 onlineCountChannel === null || onlineCountChannel === void 0 ? void 0 : onlineCountChannel.setName(`Online: ${members === null || members === void 0 ? void 0 : members.filter(m => { var _a; return !["offline", "invisible", undefined].includes((_a = m.presence) === null || _a === void 0 ? void 0 : _a.status); }).size}`);
             }, 1800000);
-            client.slashCommandManager._inDev_Deploy("suggest", "794313251185098782");
+            yield client.slashCommandManager._inDev_Deploy("message", "794313251185098782");
         });
     }
 }

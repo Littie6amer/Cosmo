@@ -94,11 +94,29 @@ class Event extends boot_client_1.ClientEventBase {
         if (interaction.customId.startsWith("selected")) {
             if (!(((_s = interaction.member) === null || _s === void 0 ? void 0 : _s.roles) instanceof discord_js_1.GuildMemberRoleManager))
                 return;
-            const roles = ["794323657827549194", "794323656422719488", "794323658541629470", "794323658864066612", "794323659762040885", "801513024023560213", "801511538032246825", "801511960390402068", "801511966875058236", "811661751020027966"];
+            const roles = ["801513024023560213", "801511538032246825", "801511960390402068", "801511966875058236", "811661751020027966"];
+            let gender = [];
+            if (interaction.member.roles.cache.get("794323658541629470"))
+                gender.push("Male");
+            if (interaction.member.roles.cache.get("794323658864066612"))
+                gender.push("Female");
+            if (interaction.member.roles.cache.get("794323659762040885"))
+                gender.push("Other");
+            if (!gender.length)
+                gender.push("Not stated");
+            let age = "Not stated";
+            if (interaction.member.roles.cache.get("794323656422719488"))
+                age = "18+";
+            else if (interaction.member.roles.cache.get("794323657827549194"))
+                age = "13+";
+            let notification_roles = (_t = interaction.member) === null || _t === void 0 ? void 0 : _t.roles.cache.filter(role => ["801513024023560213", "801511538032246825", "801511960390402068", "801511966875058236"].includes(role.id)).map(role => `${role.name}`).join("\n");
             const embed = new discord_js_1.MessageEmbed()
                 .setColor("GREY")
-                .setAuthor({ name: `${(_t = interaction.member) === null || _t === void 0 ? void 0 : _t.user.username}'s Roles`, iconURL: (_v = ((_u = interaction.member) === null || _u === void 0 ? void 0 : _u.user).avatarURL()) !== null && _v !== void 0 ? _v : undefined })
-                .setDescription((_w = interaction.member) === null || _w === void 0 ? void 0 : _w.roles.cache.filter(role => roles.includes(role.id)).map(role => `<@&${role.id}>`).join(" "));
+                .setAuthor({ name: `${(_u = interaction.member) === null || _u === void 0 ? void 0 : _u.user.username}`, iconURL: (_w = ((_v = interaction.member) === null || _v === void 0 ? void 0 : _v.user).avatarURL()) !== null && _w !== void 0 ? _w : undefined })
+                //.setDescription(interaction.member?.roles.cache.filter(role => roles.includes(role.id)).map(role => `<@&${role.id}>`).join(" "))
+                .addField("Your Gender", gender.join(", "), true)
+                .addField("Your Age", age, true)
+                .addField("Notification Settings", notification_roles || "Disabled.");
             interaction.reply({ embeds: [embed], ephemeral: true });
         }
     }

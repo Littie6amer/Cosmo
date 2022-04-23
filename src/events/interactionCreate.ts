@@ -9,7 +9,7 @@
 //technology <@&957446135222505562>
 
 import { BootClient, ClientEventBase } from "boot-client"
-import { Guild, GuildMemberRoleManager, Interaction, MessageEmbed, Role, User } from "discord.js"
+import { Guild, GuildMember, GuildMemberRoleManager, Interaction, MessageEmbed, Role, User } from "discord.js"
 
 export default class Event extends ClientEventBase {
     constructor() {
@@ -31,7 +31,7 @@ export default class Event extends ClientEventBase {
             "955962455979339798", //science
             "957446135222505562", //technology
         ]
-        
+
         if (interaction.customId == "take-me-back") {
             console.log(interaction.member?.roles)
             if (!(interaction.member?.roles instanceof GuildMemberRoleManager)) return;
@@ -57,7 +57,7 @@ export default class Event extends ClientEventBase {
             let mode = has ? "remove" : "add"
             if (has) interaction.member?.roles.remove(roleId)
             else {
-                const removeRoles = oneOnly.find(roles => roles.find(role => role == roleId))?.filter(role => role != roleId)||[]
+                const removeRoles = oneOnly.find(roles => roles.find(role => role == roleId))?.filter(role => role != roleId) || []
                 removeRoles.forEach(role => {
                     if (!(interaction.member?.roles instanceof GuildMemberRoleManager)) return;
                     interaction.member?.roles.remove(role)
@@ -85,11 +85,27 @@ export default class Event extends ClientEventBase {
 
         if (interaction.customId.startsWith("selected")) {
             if (!(interaction.member?.roles instanceof GuildMemberRoleManager)) return;
-            const roles = ["794323657827549194", "794323656422719488", "794323658541629470", "794323658864066612", "794323659762040885", "801513024023560213", "801511538032246825", "801511960390402068", "801511966875058236", "811661751020027966"]
+            const roles = ["801513024023560213", "801511538032246825", "801511960390402068", "801511966875058236", "811661751020027966"]
+
+            let gender = [];
+            if (interaction.member.roles.cache.get("794323658541629470")) gender.push("Male")
+            if (interaction.member.roles.cache.get("794323658864066612")) gender.push("Female")
+            if (interaction.member.roles.cache.get("794323659762040885")) gender.push("Other")
+            if (!gender.length) gender.push("Not stated")
+
+            let age = "Not stated";
+            if (interaction.member.roles.cache.get("794323656422719488")) age = "18+"
+            else if (interaction.member.roles.cache.get("794323657827549194")) age = "13+"
+
+            let notification_roles = interaction.member?.roles.cache.filter(role => ["801513024023560213", "801511538032246825", "801511960390402068", "801511966875058236"].includes(role.id)).map(role => `${role.name}`).join("\n")
+
             const embed = new MessageEmbed()
                 .setColor("GREY")
-                .setAuthor({ name: `${interaction.member?.user.username}'s Roles`, iconURL: (interaction.member?.user as User).avatarURL() ?? undefined })
-                .setDescription(interaction.member?.roles.cache.filter(role => roles.includes(role.id)).map(role => `<@&${role.id}>`).join(" "))
+                .setAuthor({ name: `${interaction.member?.user.username}`, iconURL: (interaction.member?.user as User).avatarURL() ?? undefined })
+                //.setDescription(interaction.member?.roles.cache.filter(role => roles.includes(role.id)).map(role => `<@&${role.id}>`).join(" "))
+                .addField("Your Gender", gender.join(", "), true)
+                .addField("Your Age", age, true)
+                .addField("Notification Settings", notification_roles || "Disabled.")
             interaction.reply({ embeds: [embed], ephemeral: true })
         }
     }

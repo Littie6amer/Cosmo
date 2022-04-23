@@ -18,7 +18,7 @@ export default class Event extends ClientEventBase {
         const members = await guild?.members.fetch()
         const memberCountChannel = client.channels.cache.get("959817177924505651") as (VoiceChannel | undefined)
         const onlineCountChannel = client.channels.cache.get("959817263987445880") as (VoiceChannel | undefined)
-        const theVC = client.channels.cache.get("954452250774863883") as (VoiceChannel | undefined)
+        const theVC = client.channels.cache.get("794323756272844823") as (VoiceChannel | undefined)
         memberCountChannel?.setName(`Members: ${members?.size}`)
         onlineCountChannel?.setName(`Online: ${members?.filter(m => !["offline", "invisible", undefined].includes(m.presence?.status)).size}`)
         const connection = theVC ? joinVoiceChannel({
@@ -30,6 +30,6 @@ export default class Event extends ClientEventBase {
             memberCountChannel?.setName(`Members: ${members?.size}`)
             onlineCountChannel?.setName(`Online: ${members?.filter(m => !["offline", "invisible", undefined].includes(m.presence?.status)).size}`)
         }, 1800000)
-        client.slashCommandManager._inDev_Deploy("suggest", "794313251185098782")
+        await client.slashCommandManager._inDev_Deploy("message", "794313251185098782")
     }
 }
