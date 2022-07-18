@@ -16,7 +16,7 @@ class Event extends boot_client_1.ClientEventBase {
         super({ name: "interactionCreate" });
     }
     execute(client, interaction) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
         if (!interaction.isButton())
             return;
         if (((_a = interaction.guild) === null || _a === void 0 ? void 0 : _a.id) != "794313251185098782")
@@ -43,7 +43,7 @@ class Event extends boot_client_1.ClientEventBase {
             }
             (_f = interaction.member) === null || _f === void 0 ? void 0 : _f.roles.add("805840704450461747");
             const embed = new discord_js_1.MessageEmbed()
-                .setColor("BLUE")
+                .setColor("#c5d0e6")
                 .setAuthor(`👋 See you later, ${(_h = (_g = interaction.member) === null || _g === void 0 ? void 0 : _g.user) === null || _h === void 0 ? void 0 : _h.username}!`)
                 .setDescription(`You can use another wormhole to go to another galaxy:\n\n<#955962095789305926>\n<#955256818345586708>\n<#958090216013455410>\n<#955257133472047155>\n<#955257031332343888>\n<#958523543845478411>\n<#955977381552750682>\n<#957443748143456266>`);
             return interaction.reply({ embeds: [embed], ephemeral: true });
@@ -74,7 +74,7 @@ class Event extends boot_client_1.ClientEventBase {
             const embed = new discord_js_1.MessageEmbed()
                 .setColor(role.color)
                 .setDescription(`${has ? "Removed" : "Added"} the <@&${roleId}> role!`);
-            interaction.reply({ embeds: [embed], ephemeral: true });
+            return interaction.reply({ embeds: [embed], ephemeral: true });
         }
         if (interaction.customId.startsWith("add:")) {
             const guild = client.guilds.cache.get("794313251185098782");
@@ -89,7 +89,7 @@ class Event extends boot_client_1.ClientEventBase {
             const embed = new discord_js_1.MessageEmbed()
                 .setColor(role.color)
                 .setDescription(`Added the <@&${roleId}> role!`);
-            interaction.reply({ embeds: [embed], ephemeral: true });
+            return interaction.reply({ embeds: [embed], ephemeral: true });
         }
         if (interaction.customId.startsWith("selected")) {
             if (!(((_s = interaction.member) === null || _s === void 0 ? void 0 : _s.roles) instanceof discord_js_1.GuildMemberRoleManager))
@@ -117,8 +117,24 @@ class Event extends boot_client_1.ClientEventBase {
                 .addField("Your Gender", gender.join(", "), true)
                 .addField("Your Age", age, true)
                 .addField("Notification Settings", notification_roles || "Disabled.");
-            interaction.reply({ embeds: [embed], ephemeral: true });
+            return interaction.reply({ embeds: [embed], ephemeral: true });
         }
+        if (interaction.customId.startsWith("enter:")) {
+            if (!(((_x = interaction.member) === null || _x === void 0 ? void 0 : _x.roles) instanceof discord_js_1.GuildMemberRoleManager))
+                return;
+            const guild = client.guilds.cache.get("794313251185098782");
+            const roleId = interaction.customId.slice("enter:".length);
+            const role = guild === null || guild === void 0 ? void 0 : guild.roles.cache.get(roleId);
+            if (!role)
+                return;
+            interaction.member.roles.add(roleId);
+            interaction.member.roles.remove("805840704450461747");
+            const embed = new discord_js_1.MessageEmbed()
+                .setColor(role.color)
+                .setDescription(`Welcome to <@&${roleId}>!`);
+            return interaction.reply({ embeds: [embed], ephemeral: true });
+        }
+        return interaction.reply({ content: `Interaction **${interaction.customId}** was not processed, sorry.\nPlease report this to <@402888568579686401>.`, ephemeral: true });
     }
 }
 exports.default = Event;

@@ -1,6 +1,6 @@
 import { BootClient, ClientEventBase } from "boot-client"
 import { Message, MessageActionRow, MessageButton, MessageEmbed } from "discord.js"
-let prefix = "sp!"
+let prefix = "c!"
 
 export default class Event extends ClientEventBase {
     constructor() {
@@ -11,9 +11,10 @@ export default class Event extends ClientEventBase {
         if (!(message.channel.type == "GUILD_TEXT" && message.guild) || message.author.bot) return;
         if ([`<@${client.user?.id}>`, `<@!${client.user?.id}>`].includes(message.content.toLowerCase())) {
             const embed = new MessageEmbed()
-                .setAuthor({ name: "Welcome to Spikey!", iconURL: client.user?.avatarURL() || undefined })
-                .setDescription("The wonderful bot making sure some parts of the server operates. However currently only does nothing but waste the creator's resources, we love spikey :D")
-                .addField("Created By", `<@402888568579686401>`)
+                .setAuthor({ name: "Welcome to Cosmo!", iconURL: client.user?.avatarURL() || undefined })
+                .setDescription("Simply just managing a few things in this server.")
+                .addField("Code By", `<@402888568579686401>`)
+                .addField("Art By", `<@619936982486876227>`)
                 .setColor("BLUE")
             return message.reply({ embeds: [embed] })
         }

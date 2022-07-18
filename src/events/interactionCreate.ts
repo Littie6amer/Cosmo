@@ -40,7 +40,7 @@ export default class Event extends ClientEventBase {
             }
             interaction.member?.roles.add("805840704450461747")
             const embed = new MessageEmbed()
-                .setColor("BLUE")
+                .setColor("#c5d0e6")
                 .setAuthor(`👋 See you later, ${interaction.member?.user?.username}!`)
                 .setDescription(`You can use another wormhole to go to another galaxy:\n\n<#955962095789305926>\n<#955256818345586708>\n<#958090216013455410>\n<#955257133472047155>\n<#955257031332343888>\n<#958523543845478411>\n<#955977381552750682>\n<#957443748143456266>`)
             return interaction.reply({ embeds: [embed], ephemeral: true })
@@ -67,7 +67,7 @@ export default class Event extends ClientEventBase {
             const embed = new MessageEmbed()
                 .setColor(role.color)
                 .setDescription(`${has ? "Removed" : "Added"} the <@&${roleId}> role!`)
-            interaction.reply({ embeds: [embed], ephemeral: true })
+            return interaction.reply({ embeds: [embed], ephemeral: true })
         }
 
         if (interaction.customId.startsWith("add:")) {
@@ -80,7 +80,7 @@ export default class Event extends ClientEventBase {
             const embed = new MessageEmbed()
                 .setColor(role.color)
                 .setDescription(`Added the <@&${roleId}> role!`)
-            interaction.reply({ embeds: [embed], ephemeral: true })
+            return interaction.reply({ embeds: [embed], ephemeral: true })
         }
 
         if (interaction.customId.startsWith("selected")) {
@@ -106,7 +106,25 @@ export default class Event extends ClientEventBase {
                 .addField("Your Gender", gender.join(", "), true)
                 .addField("Your Age", age, true)
                 .addField("Notification Settings", notification_roles || "Disabled.")
-            interaction.reply({ embeds: [embed], ephemeral: true })
+            return interaction.reply({ embeds: [embed], ephemeral: true })
         }
+
+        if (interaction.customId.startsWith("enter:")) {
+            if (!(interaction.member?.roles instanceof GuildMemberRoleManager)) return;
+            const guild = client.guilds.cache.get("794313251185098782") as (Guild | undefined)
+            const roleId = interaction.customId.slice("enter:".length)
+            const role = guild?.roles.cache.get(roleId) as Role
+            if (!role) return;
+
+            interaction.member.roles.add(roleId)
+            interaction.member.roles.remove("805840704450461747")
+
+            const embed = new MessageEmbed()
+                .setColor(role.color)
+                .setDescription(`Welcome to <@&${roleId}>!`)
+            return interaction.reply({ embeds: [embed], ephemeral: true })
+        }
+
+        return interaction.reply({ content: `Interaction **${interaction.customId}** was not processed, sorry.\nPlease report this to <@402888568579686401>.`, ephemeral: true })
     }
 }

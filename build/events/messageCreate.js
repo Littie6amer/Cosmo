@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const boot_client_1 = require("boot-client");
 const discord_js_1 = require("discord.js");
-let prefix = "sp!";
+let prefix = "c!";
 class Event extends boot_client_1.ClientEventBase {
     constructor() {
         super({ name: "messageCreate" });
